@@ -1,0 +1,74 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Riot Thumbs-Up Challange
+host: localhost:3000
+basePath: /api
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /thumbsUp:
+    x-swagger-router-controller: thumbsUp
+    post:
+      description: Bulk creation of new thumbs-up
+      operationId: post
+      parameters:
+        - in: body
+          name: thumbsUpCollection
+          description: The collection of thumps-up to create
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ThumbsUp'
+      responses:
+        201:
+          description: Created. The thumbs-up record has been saved
+        400:
+          description: Bad request. The category specified is not known or the date value is not formated correctly
+  /thumbsUp/leaderboard/{category}:
+    x-swagger-router-controller: thumbsUp
+    get:
+      description: Gets the thumbs-up leader board by category
+      operationId: leaderboard
+      parameters:
+        - name: category
+          in: path
+          description: The desired leaderboard category (clean, friendly, prompt)
+          type: string
+          enum: [clean, friendly, prompt]
+          required: true
+      responses:
+        200:
+          description: Success. The category's leaderboard formated as an array of drivers
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Driver'
+        400:
+          description: Bad request. The category specified in not known
+  /swagger:
+    x-swagger-pipe: swagger_raw
+definitions:
+  Driver:
+    properties:
+      date:
+        type: string
+        format: "date-time"
+      name:
+        type: string
+      total:
+        type: integer
+  ThumbsUp:
+    properties:
+      date:
+        type: string
+        format: "date-time"
+      name:
+        type: string
+      category:
+        type: string
+        enum: [clean, friendly, prompt]

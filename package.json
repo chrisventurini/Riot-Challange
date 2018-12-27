@@ -1,0 +1,33 @@
+{
+  "name": "riot-challange",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node $NODE_DEBUG_OPTION src/app.js",
+    "unit-tests": "mocha 'tests/unit/**/*.test.js'",
+    "int-tests": "mocha 'tests/integration/**/*.test.js'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@recrosoftware/dragon-bst": "1.0.1",
+    "deep-freeze": "0.0.1",
+    "express": "4.16.4",
+    "install": "0.12.2",
+    "moment": "2.23.0",
+    "npm": "6.5.0",
+    "proxyquire": "2.1.0",
+    "swagger": "0.7.5",
+    "swagger-express-mw": "0.7.0",
+    "swagger-ui-express": "4.0.2"
+  },
+  "devDependencies": {
+    "chai": "4.2.0",
+    "mocha": "5.2.0",
+    "random": "2.0.13",
+    "sinon": "7.2.2",
+    "supertest": "3.3.0",
+    "uuid": "3.3.2"
+  }
+}
