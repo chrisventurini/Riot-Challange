@@ -25,6 +25,19 @@ describe('End to end API tests', () => {
         app.stop();
     });
 
+    describe('When querying a leaderboard that is of an empty data set', () => {
+
+        it('should return an empty leaderboard', (done) => {
+            request(app).get(`/api/thumbsUp/leaderboard/clean/`)
+                .end((err, resp) => {
+                    expect(resp.statusCode).to.eq(200);
+                    expect(resp.body).to.eql([]);
+                    done();
+                });
+        });
+
+    });
+
     describe('When posting a new thumbs-up', () => {
         let postedThumb,
             result;
@@ -195,4 +208,5 @@ describe('End to end API tests', () => {
             expect(errResponse.errors[0].errors[0]).to.include({message: `No enum match for: ${category}` })
         });
     });
+
 });
