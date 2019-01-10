@@ -22,7 +22,9 @@ describe('End to end API tests', () => {
 
     after(() => {
         // stop the API to clean up resources
-        app.stop();
+        app.ready.then((server) => {
+            server.close();
+        });
     });
 
     describe('When querying a leaderboard that is of an empty data set', () => {

@@ -28,12 +28,12 @@ class LimitedExecuteTree extends AVLTree {
         *  the action returns false.
         */
         let executeNode = (node) => {
-            if(!actionResult)
-                return;
-
             if (node.right) {
                 executeNode(node.right);
             }
+
+            if(!actionResult)
+                return;
 
             actionResult = action(node.key, node.data);
 

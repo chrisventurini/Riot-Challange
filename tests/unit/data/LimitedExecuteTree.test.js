@@ -1,4 +1,5 @@
 const LimitedExecuteTree = require('../../../src/data/LimitedExecuteTree');
+    sinon = require('sinon'),
     expect = require('chai').expect,
     random = require('random'),
     uuid = require('uuid/v4');
@@ -81,6 +82,22 @@ describe('LimitedExecuteTree', () => {
 
                 expect(resultKeys).to.eql(expectedKeys);
                 expect(resultNodes).to.eql(expectedNodes);
+            });
+
+        });
+
+        describe("By immediately returning false", () => {
+            let actionStub;
+
+            beforeEach(() => {
+                actionStub = sinon.stub();
+
+                actionStub.returns(false);
+                SUT.executeOnEveryNodeReverse(actionStub);
+            });
+
+            it('should only execute the action once', () => {
+                sinon.assert.calledOnce(actionStub)
             });
 
         });

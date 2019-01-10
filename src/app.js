@@ -9,33 +9,35 @@ let config = {
   appRoot: __dirname // required config
 };
 
-SwaggerExpress.create(config, function(err, swaggerExpress) {
+let ready = new Promise((resolve, reject) => {
+    SwaggerExpress.create(config, function(err, swaggerExpress) {
 
-  if (err) { throw err; }
+        if (err) { reject(err);}
 
-  // install middleware
-  swaggerExpress.register(app);
+        // install middleware
+        swaggerExpress.register(app);
 
-  let port = process.env.PORT || 3000;
+        let port = process.env.PORT || 3000;
 
-  let rootUri = `http://localhost:${port}/`,
-      swaggerOptions = {
-      swaggerUrl: `${rootUri}api/swagger`
-  };
+        let rootUri = `http://localhost:${port}/`,
+            swaggerOptions = {
+                swaggerUrl: `${rootUri}api/swagger`
+            };
 
-  app.use('/', swaggerUi.serve, swaggerUi.setup(null,swaggerOptions));
+        app.use('/', swaggerUi.serve, swaggerUi.setup(null,swaggerOptions));
 
-  app.use(globalErrorHandler);
+        app.use(globalErrorHandler);
 
-  let server = app.listen(port, () =>{
-    console.log(`Application running and available at: ${rootUri}`)
-  });
-
-  // for integration testing
-  module.exports.stop = () => {
-    server.close();
-  };
+        let server = app.listen(port, () => {
+            console.log(`Application running and available at: ${rootUri}`);
+            resolve(server);
+        });
+    });
 });
 
+
 module.exports = app; // for testing
+
+// for integration testing
+module.exports.ready = ready;
 
